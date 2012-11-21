@@ -16,7 +16,7 @@
 package org.jmanage.webui.validator;
 
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionMessage;
 import org.jmanage.webui.util.WebErrorCodes;
 
 /**
@@ -28,7 +28,7 @@ public class Validator {
                                            String fieldName,
                                            ActionErrors errors){
         if(fieldValue==null||fieldValue.length()==0){
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+            errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage(
                     WebErrorCodes.ERROR_REQUIRED, fieldName));
             return false;
         }
@@ -40,7 +40,7 @@ public class Validator {
         try {
             Integer.parseInt(fieldValue);
         } catch (NumberFormatException e) {
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+            errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage(
                     WebErrorCodes.ERROR_INVALID, fieldName));
             return false;
         }

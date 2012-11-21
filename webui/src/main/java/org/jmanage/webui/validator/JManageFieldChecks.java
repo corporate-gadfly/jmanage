@@ -57,7 +57,7 @@ public class JManageFieldChecks {
                 !GenericValidator.isBlankOrNull(value2) &&
                 !value.equals(value2)) {
             errors.add(field.getKey(),
-                    Resources.getActionError(request, validatorAction,
+                    Resources.getActionMessage(request, validatorAction,
                             field));
             return false;
         }
@@ -137,7 +137,7 @@ public class JManageFieldChecks {
 		if(required){
 			if(GenericValidator.isBlankOrNull(value)){
                 errors.add(field.getKey(),
-                        Resources.getActionError(request, va, field));
+                        Resources.getActionMessage(request, va, field));
                 return false;
 			}else{
 				return true;

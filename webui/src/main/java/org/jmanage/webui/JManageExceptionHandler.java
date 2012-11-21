@@ -65,8 +65,8 @@ public class JManageExceptionHandler extends ExceptionHandler{
         ActionForward forward;
 
         if(exception instanceof ServiceException){
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(WebErrorCodes.WEB_UI_ERROR_KEY,
+            errors.add(ActionErrors.GLOBAL_MESSAGE,
+                    new ActionMessage(WebErrorCodes.WEB_UI_ERROR_KEY,
                             exception.getMessage()));
         }else if(exception instanceof ConnectionFailedException){
             //TODO: We need not handle this condition once all the code throwing this exception gets moved to service layer.
@@ -77,14 +77,14 @@ public class JManageExceptionHandler extends ExceptionHandler{
             // is handled in Service layer
             ApplicationConfigManager.DuplicateApplicationNameException ex  =
                     (ApplicationConfigManager.DuplicateApplicationNameException)exception;
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(WebErrorCodes.WEB_UI_ERROR_KEY,
+            errors.add(ActionErrors.GLOBAL_MESSAGE,
+                    new ActionMessage(WebErrorCodes.WEB_UI_ERROR_KEY,
                             ErrorCatalog.getMessage(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS,
                                     ex.getAppName())));
         }else{
             logger.log(Level.SEVERE, "unknown exception", exception);
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.UNKNOWN_ERROR));
+            errors.add(ActionErrors.GLOBAL_MESSAGE,
+                    new ActionMessage(ErrorCodes.UNKNOWN_ERROR));
         }
         request.setAttribute(Globals.ERROR_KEY, errors);
         forward = mapping.getInputForward();

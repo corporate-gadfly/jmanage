@@ -134,7 +134,7 @@ public class AlertForm extends BaseForm{
                 if(validMin && validMax){
                     if(Double.valueOf(maxAttributeValue).doubleValue()<
                             Double.valueOf(minAttributeValue).doubleValue()){
-                        errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                        errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage(
                                 WebErrorCodes.MAX_ATTRIBUTE_VALUE_GREATER));
                     }
                 }

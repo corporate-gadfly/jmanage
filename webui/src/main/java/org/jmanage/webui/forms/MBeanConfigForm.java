@@ -17,7 +17,7 @@ package org.jmanage.webui.forms;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionMessage;
 import org.apache.commons.validator.GenericValidator;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.webui.util.RequestParams;
@@ -55,12 +55,12 @@ public class MBeanConfigForm extends BaseForm {
             }
             ActionErrors errors = new ActionErrors();
             if(invalidValue){
-                errors.add(ActionErrors.GLOBAL_ERROR,
-                        new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
+                errors.add(ActionErrors.GLOBAL_MESSAGE,
+                        new ActionMessage(ErrorCodes.INVALID_CHAR_APP_NAME));
                 return errors;
             }else if(nullValue && !validValue){
-                errors.add(ActionErrors.GLOBAL_ERROR,
-                        new ActionError("errors.required", "application name"));
+                errors.add(ActionErrors.GLOBAL_MESSAGE,
+                        new ActionMessage("errors.required", "application name"));
                 return errors;
             }
             return null;
@@ -68,12 +68,12 @@ public class MBeanConfigForm extends BaseForm {
             final String configName = request.getParameter("name");
             ActionErrors errors = new ActionErrors();
             if(GenericValidator.isBlankOrNull(configName)){
-                errors.add(ActionErrors.GLOBAL_ERROR,
-                        new ActionError("errors.required", "application name"));
+                errors.add(ActionErrors.GLOBAL_MESSAGE,
+                        new ActionMessage("errors.required", "application name"));
                 return errors;
             }else if(configName.indexOf("/") != -1){
-                errors.add(ActionErrors.GLOBAL_ERROR,
-                        new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
+                errors.add(ActionErrors.GLOBAL_MESSAGE,
+                        new ActionMessage(ErrorCodes.INVALID_CHAR_APP_NAME));
                 return errors;
             }else{
                 return null;

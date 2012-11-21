@@ -52,8 +52,8 @@ public class ChangePasswordAction extends BaseAction{
         /*Make sure that entered password is valid*/
         if(!Crypto.hash(changePasswordForm.getOldPassword()).equals
                 (context.getUser().getPassword())){
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.INVALID_OLD_PASSWORD));
+            errors.add(ActionErrors.GLOBAL_MESSAGE,
+                    new ActionMessage(ErrorCodes.INVALID_OLD_PASSWORD));
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
         }
@@ -61,8 +61,8 @@ public class ChangePasswordAction extends BaseAction{
         /*Make sure that both entered passwords match */
         if(!changePasswordForm.getNewPassword().equals
                 (changePasswordForm.getConfirmPassword())){
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.PASSWORD_MISMATCH));
+            errors.add(ActionErrors.GLOBAL_MESSAGE,
+                    new ActionMessage(ErrorCodes.PASSWORD_MISMATCH));
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
         }
