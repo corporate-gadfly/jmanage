@@ -22,6 +22,7 @@ import org.jdom.JDOMException;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -105,8 +106,11 @@ public class DashboardLoader {
 		} catch (JDOMException e) {
 			logger.severe("Error Initilizing dashboards");
 			throw new RuntimeException(e);
-		}
-	}
+		} catch (IOException ioe) {
+            logger.severe("Error Initilizing dashboards");
+            throw new RuntimeException(ioe);
+        }
+    }
 
 	/**
 	 * 

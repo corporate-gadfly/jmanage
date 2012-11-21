@@ -17,6 +17,7 @@ package org.jmanage.core.management.metadata;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -59,10 +60,12 @@ public class Repository {
             load();
         } catch (JDOMException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     
-    private static void load() throws JDOMException{
+    private static void load() throws JDOMException, IOException {
         
 	File metadataRepository = new File(CoreUtils.getConfigDir() + "/mbeans");
 	assert metadataRepository.isDirectory() : "repository not found";

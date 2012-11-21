@@ -21,6 +21,7 @@ import org.jdom.JDOMException;
 import org.jdom.Element;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
@@ -59,6 +60,10 @@ public class ApplicationTypes {
             logger.log(Level.SEVERE, "Error reading config file " +
                     CONFIG_FILE);
             throw new RuntimeException(e);
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, "Error reading config file " +
+                    CONFIG_FILE);
+            throw new RuntimeException(ioe);
         }
     }
 

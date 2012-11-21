@@ -21,6 +21,7 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jmanage.core.util.Loggers;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,6 +99,9 @@ public class ConnectorConfigRegistry {
         catch (JDOMException ex) {
             logger.log(Level.SEVERE, "Error loading connector.xml");
             throw new RuntimeException(ex);
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, "Error loading connector.xml");
+            throw new RuntimeException(ioe);
         }
     }
 

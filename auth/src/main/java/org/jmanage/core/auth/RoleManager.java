@@ -23,6 +23,7 @@ import org.jdom.input.SAXBuilder;
 import org.jmanage.core.util.Loggers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,6 +59,9 @@ public class RoleManager implements AuthConstants{
         }catch(JDOMException jdEx){
             logger.info("Error reading roles "+ROLE_CONFIG_FILE_NAME);
             jdEx.printStackTrace();
+        } catch (IOException ioe) {
+            logger.info("Error reading roles "+ROLE_CONFIG_FILE_NAME);
+            ioe.printStackTrace();
         }
     }
 

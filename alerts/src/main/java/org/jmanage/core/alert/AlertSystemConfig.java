@@ -19,6 +19,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jmanage.core.util.CoreUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -60,6 +61,8 @@ public class AlertSystemConfig {
             config = new SAXBuilder().build(ALERT_CONFIG_FILE);
         } catch (JDOMException e) {
             throw new RuntimeException();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         Element deliveryTypesElement =

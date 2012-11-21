@@ -25,6 +25,7 @@ import org.jmanage.core.util.Loggers;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -56,6 +57,9 @@ public class UserManager implements AuthConstants{
         }catch(JDOMException jdEx){
             logger.info("Error reading user info "+USER_CONFIG_FILE_NAME);
             jdEx.printStackTrace();
+        } catch (IOException ioe) {
+            logger.info("Error reading user info "+USER_CONFIG_FILE_NAME);
+            ioe.printStackTrace();
         }
     }
 

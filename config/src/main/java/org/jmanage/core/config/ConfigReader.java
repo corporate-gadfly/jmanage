@@ -24,6 +24,7 @@ import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -58,6 +59,10 @@ public class ConfigReader implements ConfigConstants{
             logger.log(Level.SEVERE, "Error reading config file " +
                     DEFAULT_CONFIG_FILE_NAME);
             throw new RuntimeException(jdEx);
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, "Error reading config file " +
+                    DEFAULT_CONFIG_FILE_NAME);
+            throw new RuntimeException(ioe);
         }
     }
 
