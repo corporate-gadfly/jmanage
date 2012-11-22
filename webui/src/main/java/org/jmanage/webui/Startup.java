@@ -24,7 +24,7 @@ import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.PasswordField;
 import org.jmanage.util.db.DBUtils;
-import org.mortbay.jetty.Server;
+//import org.mortbay.jetty.Server;
 import java.io.File;
 import java.rmi.RMISecurityManager;
 import java.util.Arrays;
@@ -107,10 +107,10 @@ public class Startup {
 
 	private static void start(String jManageRoot) throws Exception {
 		try {
-			Server server = new Server(jManageRoot + File.separator + "config" + File.separator
-					+ "jetty-config.xml");
+//			Server server = new Server(jManageRoot + File.separator + "config" + File.separator
+//					+ "jetty-config.xml");
 			ServerMonitor.monitor();
-			server.start();
+//			server.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
