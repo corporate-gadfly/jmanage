@@ -125,6 +125,7 @@
         <module>connector</module>
         <module>crypto</module>
         <module>management</module>
+        <module>modules</module>
         <module>services</module>
         <module>utils</module>
         <module>webui</module>

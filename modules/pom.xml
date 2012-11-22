@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jmanage</groupId>
+        <artifactId>jmanage-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>jmanage-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>connector</module>
+        <module>jboss</module>
+        <module>jsr160</module>
+        <module>local</module>
+        <module>snmp</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>all</id>
+            <modules>
+                <module>weblogic</module>
+                <module>weblogic9</module>
+                <module>websphere</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>weblogic</id>
+            <modules>
+                <module>weblogic</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>weblogic9</id>
+            <modules>
+                <module>weblogic9</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>websphere</id>
+            <modules>
+                <module>websphere</module>
+            </modules>
+        </profile>
+    </profiles>
+
+</project>
