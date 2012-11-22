@@ -36,16 +36,8 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-tiles</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-taglib</artifactId>
+            <groupId>struts</groupId>
+            <artifactId>struts</artifactId>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
