@@ -15,6 +15,7 @@
  */
 package org.jmanage.util;
 
+import java.io.File;
 import java.util.*;
 import java.net.URL;
 
@@ -85,7 +86,7 @@ public class StringUtils {
 		StringBuffer buff = new StringBuffer();
 		for (int i = 0; i < urls.length; i++) {
 			buff.append(urls[i].toString());
-			buff.append(";");
+			buff.append(File.pathSeparator);
 		}
 		return buff.toString();
 	}
