@@ -51,10 +51,16 @@ public class ModuleConfig {
     }
 
     public boolean isAvailable(){
-        final String moduleDirPath =
-                CoreUtils.getModuleDir(id);
-        final File moduleDir = new File(moduleDirPath);
-        return moduleDir.isDirectory();
+        boolean available = true;
+        String className = metaConfig.getApplicationConfigClassName();
+
+        try {
+            // return the class object associated with class name but do not initialize it
+            Class.forName(className, false, this.getClass().getClassLoader());
+        } catch (ClassNotFoundException e) {
+            available = false;
+        }
+        return available;
     }
 
     public URL[] getModuleClassPath()
