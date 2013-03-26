@@ -19,9 +19,30 @@
         <module>jsr160</module>
         <module>local</module>
         <module>snmp</module>
-        <module>weblogic</module>
-        <module>weblogic9</module>
-        <module>websphere</module>
     </modules>
+
+    <!-- if you use the following servers, feel free to activate these
+    profiles (by supplying -P switch to maven) and work through the compilation errors
+    and dependencies -->
+    <profiles>
+        <profile>
+            <id>weblogic</id>
+            <modules>
+                <module>weblogic</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>weblogic9</id>
+            <modules>
+                <module>weblogic9</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>websphere</id>
+            <modules>
+                <module>websphere</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>
