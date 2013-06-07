@@ -16,6 +16,7 @@
 package org.jmanage.webui.listener;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,6 +75,11 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 
         if (StringUtils.isBlank(rootDirAbsPath)) {
             throw new RuntimeException("You must specify a system property with the name JMANAGE_ROOT");
+        }
+
+        File rootDir = new File(rootDirAbsPath);
+        if (!rootDir.exists() || !rootDir.isDirectory()) {
+            throw new RuntimeException("The path specified by JMANAGE_ROOT system property (" + rootDirAbsPath + ") is not a valid directory path.");
         }
 
 		try{
