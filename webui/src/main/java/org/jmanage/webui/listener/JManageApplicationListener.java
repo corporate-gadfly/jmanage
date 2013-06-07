@@ -22,7 +22,9 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletException;
 
+import org.apache.commons.lang.StringUtils;
 import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.alert.delivery.EmailAlerts;
 import org.jmanage.core.auth.ACLStore;
@@ -44,6 +46,8 @@ import org.jmanage.util.db.DBUtils;
 public class JManageApplicationListener implements javax.servlet.ServletContextListener {
 	private Logger logger = Loggers.getLogger(JManageApplicationListener.class);
 
+    private boolean initialized = false;
+
 	/**
 	 * jManage related resource cleanups done here.
 	 */
@@ -51,12 +55,14 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 		logger.info("jManage shutting down...");
 		/* stop alert engine */
 		AlertEngine.getInstance().stop();
-		/* stop application downtime service */
-    ApplicationDowntimeService.getInstance().stop();
-    /* stop email alerts */
-    EmailAlerts.getInstance().stop();
-    /* shutdown HSQL database */
-    DBUtils.shutdownDB();
+        if (initialized) {
+            /* stop application downtime service */
+            ApplicationDowntimeService.getInstance().stop();
+        }
+        /* stop email alerts */
+        EmailAlerts.getInstance().stop();
+        /* shutdown HSQL database */
+        DBUtils.shutdownDB();
 	}
 
 	/**
@@ -65,6 +71,10 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 	public void contextInitialized(ServletContextEvent applicationEvent) {
 		logger.info("jManage initializing...");
 		String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
+
+        if (StringUtils.isBlank(rootDirAbsPath)) {
+            throw new RuntimeException("You must specify a system property with the name JMANAGE_ROOT");
+        }
 
 		try{
 			ServletContext appContext = applicationEvent.getServletContext();
@@ -109,6 +119,7 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 			ApplicationDowntimeService.getInstance().start();
 			/* register the jManage MBeans */
 			registerJManageMBeans();
+            initialized = true;
 			logger.info("jManage initialization complete...");
 		}catch(Throwable e){
 			logger.log(Level.SEVERE, "Error initializing jManage.", e);
