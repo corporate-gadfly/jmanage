@@ -74,12 +74,12 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 		String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
 
         if (StringUtils.isBlank(rootDirAbsPath)) {
-            throw new RuntimeException("You must specify a system property with the name JMANAGE_ROOT");
+            throw new IllegalArgumentException("You must specify a system property with the name JMANAGE_ROOT");
         }
 
         File rootDir = new File(rootDirAbsPath);
         if (!rootDir.exists() || !rootDir.isDirectory()) {
-            throw new RuntimeException("The path specified by JMANAGE_ROOT system property (" + rootDirAbsPath + ") is not a valid directory path.");
+            throw new IllegalArgumentException("The path specified by JMANAGE_ROOT system property (" + rootDirAbsPath + ") is not a valid directory path.");
         }
 
 		try{
