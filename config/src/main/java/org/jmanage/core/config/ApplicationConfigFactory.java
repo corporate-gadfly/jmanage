@@ -42,8 +42,7 @@ public class ApplicationConfigFactory {
             final MetaApplicationConfig metaAppConfig =
                     moduleConfig.getMetaApplicationConfig();
             final Class metaConfigClass =
-                    Class.forName(metaAppConfig.getApplicationConfigClassName(),
-                            true, appType.getClassLoader());
+                    Class.forName(metaAppConfig.getApplicationConfigClassName());
             final ApplicationConfig appConfig =
                     (ApplicationConfig)metaConfigClass.newInstance();
             appConfig.setApplicationId(applicationId);

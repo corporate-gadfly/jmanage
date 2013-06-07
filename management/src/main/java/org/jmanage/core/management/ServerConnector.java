@@ -49,23 +49,18 @@ public class ServerConnector {
                 ApplicationTypes.getApplicationType(appConfig.getType());
         assert appType != null: "Invalid type=" + appConfig.getType();
         ModuleConfig moduleConfig = appType.getModule();
-        final ClassLoader classLoader = appType.getClassLoader();
-        assert classLoader != null;
 
         final ClassLoader contextClassLoader =
                 Thread.currentThread().getContextClassLoader();
-        /* temporarily change the thread context classloader */
-        Thread.currentThread().setContextClassLoader(classLoader);
 
         try {
             logger.fine("Connecting to " + appConfig.getURL());
             final ServerConnectionFactory factory =
-                    getServerConnectionFactory(moduleConfig, classLoader);
+                    getServerConnectionFactory(moduleConfig);
             ServerConnection connection =
                     factory.getServerConnection(appConfig);
             logger.fine("Connected to " + appConfig.getURL());
-            ServerConnectionProxy proxy = new ServerConnectionProxy(connection,
-                    classLoader);
+            ServerConnectionProxy proxy = new ServerConnectionProxy(connection);
             return (ServerConnection)Proxy.newProxyInstance(
                     ServerConnector.class.getClassLoader(),
                     new Class[]{ServerConnection.class},
@@ -73,25 +68,18 @@ public class ServerConnector {
         } catch(ConnectionFailedException e){
             logger.info("Failed to connect. error=" + e.getMessage());
             throw e;
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
     }
 
     private static ServerConnectionFactory
-            getServerConnectionFactory(ModuleConfig moduleConfig,
-                                       ClassLoader classLoader) {
+            getServerConnectionFactory(ModuleConfig moduleConfig) {
 
-        assert classLoader != null;
         ServerConnectionFactory factory = (ServerConnectionFactory)
                 factories.get(moduleConfig.getConnectionFactory());
         if(factory == null){
             try {
                 final Class factoryClass =
-                        Class.forName(moduleConfig.getConnectionFactory(),
-                                true, classLoader);
+                        Class.forName(moduleConfig.getConnectionFactory());
                 factory = (ServerConnectionFactory)factoryClass.newInstance();
                 factories.put(moduleConfig.getConnectionFactory(), factory);
             } catch (Exception e) {

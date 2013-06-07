@@ -40,12 +40,9 @@ public class ServerConnectionProxy implements InvocationHandler {
             Loggers.getLogger(ServerConnectionProxy.class);
 
     private ServerConnection connection;
-    private ClassLoader classLoader;
 
-    public ServerConnectionProxy(ServerConnection connection,
-                                 ClassLoader classLoader){
+    public ServerConnectionProxy(ServerConnection connection) {
         this.connection = connection;
-        this.classLoader = classLoader;
     }
 
     public Object invoke(Object proxy, Method method, Object[] args)
@@ -55,8 +52,6 @@ public class ServerConnectionProxy implements InvocationHandler {
                         Thread.currentThread().getContextClassLoader();
         try {
 
-            /* temporarily change the thread context classloader */
-            Thread.currentThread().setContextClassLoader(classLoader);
             /* invoke the method on the wrapped ServerConnection */
             if(method.getName().equals("getAttributes")){
                 assert args.length == 2;
@@ -74,10 +69,6 @@ public class ServerConnectionProxy implements InvocationHandler {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {
             throw e.getCause();
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
     }
 
