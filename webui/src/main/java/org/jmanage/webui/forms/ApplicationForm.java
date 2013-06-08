@@ -15,10 +15,12 @@
  */
 package org.jmanage.webui.forms;
 
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.jmanage.core.config.*;
+import org.jmanage.core.config.ApplicationType;
+import org.jmanage.core.config.ApplicationTypes;
+import org.jmanage.core.config.MetaApplicationConfig;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.webui.validator.Validator;
 
@@ -136,7 +138,7 @@ public class ApplicationForm extends BaseForm {
         if(errors==null || errors.isEmpty()){
             if(name.indexOf("/") != -1){
                 errors.add(ActionErrors.GLOBAL_MESSAGE,
-                        new ActionMessage(ErrorCodes.INVALID_CHAR_APP_NAME));
+                        new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
             }
             ApplicationType appType = ApplicationTypes.getApplicationType(type);
             MetaApplicationConfig metaAppConfig =
