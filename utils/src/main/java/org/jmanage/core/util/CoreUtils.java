@@ -48,14 +48,20 @@ public class CoreUtils {
 		assert rootDir != null;
 
 		/* create logs dir, before doing any logging */
-		new File(CoreUtils.getLogDir()).mkdirs();
+        boolean directoryCreated = new File(CoreUtils.getLogDir()).mkdirs();
+        if (!directoryCreated) {
+            throw new RuntimeException("Failed to create directory: " + getLogDir());
+        }
 		logger.info("app root dir= " + rootDir);
 		logger.info("metadata dir= " + metadataDir);
 		/* create data dir */
 		dataDir = getRootDir() + "/data";
 		File dataDirFile = new File(dataDir);
 		if (!dataDirFile.exists()) {
-			dataDirFile.mkdirs();
+			directoryCreated = dataDirFile.mkdirs();
+            if (!directoryCreated) {
+                throw new RuntimeException("Failed to create directory: " + dataDir);
+            }
 		}
 	}
 
@@ -138,7 +144,10 @@ public class CoreUtils {
 
 	public static void copyConfig(File configDir, File configSrcDir) throws Exception {
 		if (!configDir.exists()) {
-			configDir.mkdir();
+			boolean directoryCreated = configDir.mkdirs();
+            if (!directoryCreated) {
+                throw new RuntimeException("Failed to create directory: " + configDir);
+            }
 			copyDirectory(configSrcDir, configDir);
 			deleteFile(configSrcDir);
 		}
@@ -148,7 +157,10 @@ public class CoreUtils {
 			throws IOException {
 		if (sourceLocation.isDirectory()) {
 			if (!targetLocation.exists()) {
-				targetLocation.mkdir();
+				boolean directoryCreated = targetLocation.mkdirs();
+                if (!directoryCreated) {
+                    throw new RuntimeException("Failed to create directory: " + targetLocation);
+                }
 			}
 			String[] children = sourceLocation.list();
 			for (int i = 0; i < children.length; i++) {

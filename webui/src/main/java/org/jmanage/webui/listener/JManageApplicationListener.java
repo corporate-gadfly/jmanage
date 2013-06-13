@@ -77,11 +77,6 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
             throw new IllegalArgumentException("You must specify a system property with the name JMANAGE_ROOT");
         }
 
-        File rootDir = new File(rootDirAbsPath);
-        if (!rootDir.exists() || !rootDir.isDirectory()) {
-            throw new IllegalArgumentException("The path specified by JMANAGE_ROOT system property (" + rootDirAbsPath + ") is not a valid directory path.");
-        }
-
 		try{
 			ServletContext appContext = applicationEvent.getServletContext();
 			String metadataDir =  appContext.getInitParameter("metadata-dir");
