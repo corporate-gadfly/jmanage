@@ -48,9 +48,13 @@ public class CoreUtils {
 		assert rootDir != null;
 
 		/* create logs dir, before doing any logging */
-        boolean directoryCreated = new File(CoreUtils.getLogDir()).mkdirs();
-        if (!directoryCreated) {
-            throw new RuntimeException("Failed to create directory: " + getLogDir());
+        File logDirFile = new File(CoreUtils.getLogDir());
+        boolean directoryCreated = false;
+        if (!logDirFile.exists()) {
+            directoryCreated = logDirFile.mkdirs();
+            if (!directoryCreated) {
+                throw new RuntimeException("Failed to create directory: " + getLogDir());
+            }
         }
 		logger.info("app root dir= " + rootDir);
 		logger.info("metadata dir= " + metadataDir);
