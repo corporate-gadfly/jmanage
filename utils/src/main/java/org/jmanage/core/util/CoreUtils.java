@@ -146,16 +146,16 @@ public class CoreUtils {
 		return null;
 	}
 
-	public static void copyConfig(File configDir, File configSrcDir) throws Exception {
-		if (!configDir.exists()) {
-			boolean directoryCreated = configDir.mkdirs();
-            if (!directoryCreated) {
-                throw new RuntimeException("Failed to create directory: " + configDir);
-            }
-			copyDirectory(configSrcDir, configDir);
-			deleteFile(configSrcDir);
-		}
-	}
+    public static void copyConfig(File configDir, File configSrcDir) throws IOException {
+   		if (!configDir.exists()) {
+   			boolean directoryCreated = configDir.mkdirs();
+               if (!directoryCreated) {
+                   throw new IOException("Failed to create directory: " + configDir);
+               }
+   			copyDirectory(configSrcDir, configDir);
+   			deleteFile(configSrcDir);
+   		}
+   	}
 
 	public static void copyDirectory(File sourceLocation, File targetLocation)
 			throws IOException {

@@ -16,14 +16,13 @@
 package org.jmanage.webui.listener;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletException;
 
 import org.apache.commons.lang.StringUtils;
 import org.jmanage.core.alert.AlertEngine;
@@ -77,54 +76,54 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
             throw new IllegalArgumentException("You must specify a system property with the name JMANAGE_ROOT");
         }
 
-		try{
-			ServletContext appContext = applicationEvent.getServletContext();
-			String metadataDir =  appContext.getInitParameter("metadata-dir");
-			String metadataDirAbsPath = appContext.getRealPath(metadataDir);
+        ServletContext appContext = applicationEvent.getServletContext();
+        String metadataDir =  appContext.getInitParameter("metadata-dir");
+        String metadataDirAbsPath = appContext.getRealPath(metadataDir);
 
-			File configDir = new File(rootDirAbsPath + File.separator + "config");
-			File configSrcDir = new File(metadataDirAbsPath + File.separator + "config");
-			CoreUtils.copyConfig(configDir, configSrcDir);
+        File configDir = new File(rootDirAbsPath + File.separator + "config");
+        File configSrcDir = new File(metadataDirAbsPath + File.separator + "config");
+        try {
+            CoreUtils.copyConfig(configDir, configSrcDir);
+        } catch (IOException e) {
+            throw new RuntimeException("Exception occurred during application initialization: " + e);
+        }
 
-			String dataFormatConfigSysProp = appContext.getInitParameter("jmanage-data-formatConfig");
-			System.setProperty(dataFormatConfigSysProp, 
-					rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"html-data-format.properties");
+        String dataFormatConfigSysProp = appContext.getInitParameter("jmanage-data-formatConfig");
+        System.setProperty(dataFormatConfigSysProp,
+                rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"html-data-format.properties");
 
-			String jaasConfigSysProp = appContext.getInitParameter("jaas-config");
-			System.setProperty(jaasConfigSysProp, 
-					rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"jmanage-auth.conf");
+        String jaasConfigSysProp = appContext.getInitParameter("jaas-config");
+        System.setProperty(jaasConfigSysProp,
+                rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"jmanage-auth.conf");
 
-			CoreUtils.init(rootDirAbsPath, metadataDirAbsPath);
+        CoreUtils.init(rootDirAbsPath, metadataDirAbsPath);
 
-			/* read jmanage.properties */
-			JManageProperties jmProp = JManageProperties.getInstance();
-			String serverIndicator = System.getProperty("SERVER.IND");
-			String sPassword = jmProp.getProperty("jmanage.password");
-			char[] password = sPassword != null ? sPassword.toCharArray() : null;
+        /* read jmanage.properties */
+        JManageProperties jmProp = JManageProperties.getInstance();
+        String serverIndicator = System.getProperty("SERVER.IND");
+        String sPassword = jmProp.getProperty("jmanage.password");
+        char[] password = sPassword != null ? sPassword.toCharArray() : null;
 
-			ServiceFactory.init(ServiceFactory.MODE_LOCAL);
-			if(!"JETTY".equals(serverIndicator)){
-				/* initialize Crypto */
-				Crypto.init(password);
-				/* clear the password */
-				Arrays.fill(password, ' ');
-			}
+        ServiceFactory.init(ServiceFactory.MODE_LOCAL);
+        if(!"JETTY".equals(serverIndicator)){
+            /* initialize Crypto */
+            Crypto.init(password);
+            /* clear the password */
+            Arrays.fill(password, ' ');
+        }
 
-			/* Initialize DBUtils */
-			DBUtils.init();
-			/* Start AlertEngine */
-			AlertEngine.getInstance().start();
-			/* Initialize ObservedMBeanAttributeCache */
-			ObservedMBeanAttributeCache.init();
-			/* Start threads to monitor configured applications */
-			ApplicationDowntimeService.getInstance().start();
-			/* register the jManage MBeans */
-			registerJManageMBeans();
-            initialized = true;
-			logger.info("jManage initialization complete...");
-		}catch(Throwable e){
-			logger.log(Level.SEVERE, "Error initializing jManage.", e);
-		}
+        /* Initialize DBUtils */
+        DBUtils.init();
+        /* Start AlertEngine */
+        AlertEngine.getInstance().start();
+        /* Initialize ObservedMBeanAttributeCache */
+        ObservedMBeanAttributeCache.init();
+        /* Start threads to monitor configured applications */
+        ApplicationDowntimeService.getInstance().start();
+        /* register the jManage MBeans */
+        registerJManageMBeans();
+        initialized = true;
+        logger.info("jManage initialization complete...");
 	}
 
 	private void registerJManageMBeans() {
