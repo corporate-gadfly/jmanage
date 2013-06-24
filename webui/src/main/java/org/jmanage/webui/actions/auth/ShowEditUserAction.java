@@ -76,15 +76,12 @@ public class ShowEditUserAction extends BaseAction{
         userForm.setUsername(user.getUsername());
         userForm.setPassword(UserForm.FORM_PASSWORD);
         userForm.setConfirmPassword(UserForm.FORM_PASSWORD);
-        //TODO Need to handle multiple role scenario
-        if(!AuthConstants.USER_ADMIN.equals(user.getUsername())){
-        	String[] roles = new String[user.getRoles().size()];
-        	int ctr = 0;
-        	for(Iterator it= user.getRoles().iterator(); it.hasNext();){
-        		roles[ctr++] = ((Role)it.next()).getName();
-        	}
-            userForm.setRole(roles);
+        String[] roles = new String[user.getRoles().size()];
+        int ctr = 0;
+        for(Iterator it= user.getRoles().iterator(); it.hasNext();){
+            roles[ctr++] = ((Role)it.next()).getName();
         }
+        userForm.setRole(roles);
         userForm.setStatus(user.getStatus());
     }
 }
