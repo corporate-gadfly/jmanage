@@ -83,7 +83,7 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
         File configDir = new File(rootDirAbsPath + File.separator + "config");
         File configSrcDir = new File(metadataDirAbsPath + File.separator + "config");
         try {
-            CoreUtils.copyConfig(configDir, configSrcDir);
+            CoreUtils.copyConfig(configDir, configSrcDir, false);
         } catch (IOException e) {
             throw new RuntimeException("Exception occurred during application initialization: " + e);
         }

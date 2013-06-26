@@ -146,14 +146,14 @@ public class CoreUtils {
 		return null;
 	}
 
-    public static void copyConfig(File configDir, File configSrcDir) throws IOException {
+    public static void copyConfig(File configDir, File configSrcDir, boolean deleteSource) throws IOException {
    		if (!configDir.exists()) {
    			boolean directoryCreated = configDir.mkdirs();
                if (!directoryCreated) {
                    throw new IOException("Failed to create directory: " + configDir);
                }
    			copyDirectory(configSrcDir, configDir);
-   			deleteFile(configSrcDir);
+   			if (deleteSource) deleteFile(configSrcDir);
    		}
    	}
 
@@ -205,7 +205,7 @@ public class CoreUtils {
 		File configDir = new File(jManageRoot + File.separator + "config");
 		File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator
 				+ "META-INF" + File.separator + "config");
-		CoreUtils.copyConfig(configDir, configSrcDir);
+		CoreUtils.copyConfig(configDir, configSrcDir, true);
 		String jManageRootDir = new File(jManageRoot).getAbsolutePath();
 		String metaDataDir = jManageRootDir + File.separator + "web" + File.separator
 				+ "META-INF";
